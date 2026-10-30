@@ -73,76 +73,70 @@
 }
 
 :root {
-  /* High-Contrast Cyberpunk SOC Theme (Obsidian Black + Vivid Cyan Glow + Crisp Borders) */
-  --background: #07090d;
-  --foreground: #e6edf3;
-  --card: #0e1219;
-  --card-foreground: #e6edf3;
-  --popover: #0e1219;
-  --popover-foreground: #e6edf3;
-  --primary: #22d3ee;
-  --primary-foreground: #07090d;
-  --secondary: #a78bfa;
-  --secondary-foreground: #ffffff;
-  --muted: #121824;
-  --muted-foreground: #8b95a5;
-  --accent: #182030;
-  --accent-foreground: #e6edf3;
-  --destructive: #f87171;
-  --border: #1e2638;
-  --input: #1e2638;
-  --ring: #22d3ee;
-
-  --chart-1: #22d3ee;
-  --chart-2: #2dd4bf;
-  --chart-3: #60a5fa;
-  --chart-4: #fbbf24;
-  --chart-5: #f87171;
-
+  /* TRINETRA "Dark Cinematic Cybersecurity" theme — premium SOC console skin.
+     Meaning colours (observed/predicted/rejected/IOC roles) stay semantically
+     fixed per contracts §11; only the literal hex values are reskinned here. */
+  --background: #080a0a;
+  --foreground: #eef4f1;
+  --card: #171c1a;
+  --card-foreground: #eef4f1;
+  --popover: #171c1a;
+  --popover-foreground: #eef4f1;
+  --primary: #00ff85;
+  --primary-foreground: #061008;
+  --secondary: #8b5cf6;
+  --secondary-foreground: #f5f3ff;
+  --muted: #101413;
+  --muted-foreground: #8ea39b;
+  --accent: #202724;
+  --accent-foreground: #eef4f1;
+  --destructive: #ff3b4e;
+  --border: #303936;
+  --input: #303936;
+  --ring: #00ff85;
+  --chart-1: #00ff85;
+  --chart-2: #00e5c3;
+  --chart-3: #00b8ff;
+  --chart-4: #ffb547;
+  --chart-5: #ff3b4e;
   --radius: 0.625rem;
-
-  --sidebar: #090d14;
-  --sidebar-foreground: #e6edf3;
-  --sidebar-primary: #22d3ee;
-  --sidebar-primary-foreground: #07090d;
-  --sidebar-accent: #131a26;
-  --sidebar-accent-foreground: #22d3ee;
-  --sidebar-border: #192030;
-  --sidebar-ring: #22d3ee;
-
+  --sidebar: #101413;
+  --sidebar-foreground: #eef4f1;
+  --sidebar-primary: #00ff85;
+  --sidebar-primary-foreground: #061008;
+  --sidebar-accent: #202724;
+  --sidebar-accent-foreground: #eef4f1;
+  --sidebar-border: #303936;
+  --sidebar-ring: #00ff85;
   /* Surfaces */
-  --surface: #0b0f17;
-  --raised: #151d2a;
-
+  --surface: #101413;
+  --raised: #202724;
   /* Status */
-  --success: #34d399;
-  --warning: #fbbf24;
-  --danger: #f87171;
-  --info: #60a5fa;
-
-  /* Meaning colours per contracts §11 */
-  --observed: #22d3ee;
-  --predicted: #a78bfa;
-  --unknown-gap: #475569;
-  --rejected: #f87171;
-
+  --success: #00ff85;
+  --warning: #ffb547;
+  --danger: #ff3b4e;
+  --info: #00b8ff;
+  /* Meaning colours (never reuse for anything else) */
+  --observed: #00e5c3;
+  --predicted: #8b5cf6;
+  --unknown-gap: #4b5a54;
+  --rejected: #ff3b4e;
   /* IOC role colours */
-  --role-c2: #f87171;
-  --role-payload: #fb923c;
-  --role-phishing: #fbbf24;
+  --role-c2: #ff3b4e;
+  --role-payload: #ffb547;
+  --role-phishing: #ffd54a;
   --role-exfil: #e879f9;
-  --role-victim: #60a5fa;
-  --role-scanner: #94a3b8;
-  --role-infrastructure: #2dd4bf;
-  --role-unknown: #64748b;
-
-  /* Node kind colours */
-  --kind-deterministic: #94a3b8;
-  --kind-llm: #a78bfa;
-  --kind-vector: #22d3ee;
-  --kind-hybrid: #fbbf24;
-  --kind-graph: #2dd4bf;
-  --kind-ml: #f472b6;
+  --role-victim: #00b8ff;
+  --role-scanner: #8ea39b;
+  --role-infrastructure: #00e5c3;
+  --role-unknown: #5b6c65;
+  /* Node "kind" badge colours for the pipeline canvas (contracts §9) */
+  --kind-deterministic: #8ea39b;
+  --kind-llm: #8b5cf6;
+  --kind-vector: #00e5c3;
+  --kind-hybrid: #ffb547;
+  --kind-graph: #00b8ff;
+  --kind-ml: #ff6bd6;
 }
 
 @layer base {
@@ -150,22 +144,20 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary;
-    background-color: var(--background);
-    background-image: 
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 211, 238, 0.12), transparent),
-      radial-gradient(circle at 100% 100%, rgba(167, 139, 250, 0.06), transparent 40%);
-    background-attachment: fixed;
+    @apply bg-background text-foreground;
   }
   html {
     @apply font-sans;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading tracking-tight;
+    @apply font-heading;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary), transparent 70%);
   }
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
   ::-webkit-scrollbar-track {
     background: var(--surface);
@@ -180,22 +172,36 @@
 }
 
 @layer utilities {
-  .glow-primary,
-  .glow-cyan {
-    box-shadow: 0 0 16px -2px rgba(34, 211, 238, 0.45), 0 0 0 1px rgba(34, 211, 238, 0.5);
+  /* Controlled neon glow — used sparingly on active/primary elements only. */
+  .glow-primary {
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--primary), transparent 55%),
+      0 0 18px -2px color-mix(in oklch, var(--primary), transparent 35%);
   }
-  .glow-violet {
-    box-shadow: 0 0 15px -2px rgba(167, 139, 250, 0.4), 0 0 0 1px rgba(167, 139, 250, 0.6);
+  .glow-observed {
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--observed), transparent 55%),
+      0 0 16px -2px color-mix(in oklch, var(--observed), transparent 40%);
   }
-  .glass-card {
-    background: rgba(14, 18, 25, 0.75);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(30, 38, 56, 0.85);
+  .glow-danger {
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--danger), transparent 50%),
+      0 0 16px -2px color-mix(in oklch, var(--danger), transparent 35%);
   }
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* Subtle animated SOC-console grid, cheap CSS only — home page background. */
   .bg-grid-glow {
-    background-size: 32px 32px;
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      linear-gradient(to right, color-mix(in oklch, var(--border), transparent 55%) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklch, var(--border), transparent 55%) 1px, transparent 1px),
+      radial-gradient(ellipse 60% 50% at 50% 0%, color-mix(in oklch, var(--primary), transparent 88%), transparent);
+    background-size: 44px 44px, 44px 44px, 100% 100%;
+    background-position: center, center, center;
+  }
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0a0a0a !important;
   }
 }
