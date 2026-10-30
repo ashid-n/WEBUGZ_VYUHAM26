@@ -46,16 +46,16 @@ export function Sidebar() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition-colors",
+                "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition-all",
                 "hover:bg-sidebar-accent hover:text-sidebar-foreground",
-                active && "bg-sidebar-accent text-primary",
-                collapsed && "justify-center px-0",
+                active && "bg-sidebar-accent text-primary border-l-2 border-primary shadow-[inset_0_0_14px_rgba(0,255,133,0.1)]",
+                collapsed && "justify-center px-0 border-l-0",
               )}
             >
               <item.icon
                 className={cn(
-                  "size-4 shrink-0",
-                  active && "text-primary drop-shadow-[0_0_6px_var(--primary)]",
+                  "size-4 shrink-0 transition-transform group-hover:scale-110",
+                  active && "text-primary drop-shadow-[0_0_8px_rgba(0,255,133,0.6)]",
                 )}
                 aria-hidden="true"
               />

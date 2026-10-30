@@ -23,6 +23,8 @@ function sourceDomain(url: string | null): string {
   }
 }
 
+import { motion } from "framer-motion";
+
 export function RecentAnalyses() {
   const { data, isLoading } = useQuery({ queryKey: ["analyses", "list"], queryFn: listAnalyses });
 
@@ -30,7 +32,7 @@ export function RecentAnalyses() {
     return (
       <div className="flex flex-col gap-2">
         {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} className="h-16 w-full" />
+          <Skeleton key={i} className="h-16 w-full rounded-xl bg-surface/80" />
         ))}
       </div>
     );
@@ -41,44 +43,50 @@ export function RecentAnalyses() {
   }
 
   return (
-    <ul className="flex flex-col gap-2">
-      {data.map((a) => {
+    <ul className="flex flex-col gap-2.5">
+      {data.map((a, idx) => {
         const status = STATUS_STYLE[a.status];
         const StatusIcon = status.icon;
         return (
-          <li key={a.report_id}>
+          <motion.li
+            key={a.report_id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.05, duration: 0.35 }}
+            whileHover={{ x: 4 }}
+          >
             <Link
               href={`/report/${a.report_id}`}
-              className="group flex items-center gap-4 rounded-xl border border-border bg-card px-4 py-3 transition-colors hover:border-primary/40 hover:bg-raised"
+              className="group flex items-center gap-4 rounded-xl border border-border/80 bg-card/80 px-4 py-3 transition-all hover:border-primary/50 hover:bg-raised hover:shadow-[0_0_20px_rgba(0,255,133,0.12)]"
             >
               <div className="min-w-0 flex-1">
-                <p className="truncate font-medium text-foreground group-hover:text-primary">{a.title}</p>
+                <p className="truncate font-medium text-foreground transition-colors group-hover:text-primary">{a.title}</p>
                 <p className="truncate font-mono text-xs text-muted-foreground">
                   {sourceDomain(a.source_url)} ·{" "}
                   {a.published_at ? new Date(a.published_at).toLocaleDateString() : "undated"}
                 </p>
               </div>
               <div className="hidden shrink-0 items-center gap-3 text-xs text-muted-foreground sm:flex">
-                <span className="flex items-center gap-1" title="Non-filtered IOCs">
-                  <Fingerprint className="size-3.5" aria-hidden="true" /> {a.counts.iocs}
+                <span className="flex items-center gap-1 font-mono" title="Non-filtered IOCs">
+                  <Fingerprint className="size-3.5 text-primary/70" aria-hidden="true" /> {a.counts.iocs}
                 </span>
-                <span className="flex items-center gap-1" title="Accepted techniques">
-                  <Swords className="size-3.5" aria-hidden="true" /> {a.counts.techniques}
+                <span className="flex items-center gap-1 font-mono" title="Accepted techniques">
+                  <Swords className="size-3.5 text-observed" aria-hidden="true" /> {a.counts.techniques}
                 </span>
-                <span className="flex items-center gap-1" title="Memory alerts">
-                  <ShieldAlert className="size-3.5" aria-hidden="true" /> {a.counts.alerts}
+                <span className="flex items-center gap-1 font-mono" title="Memory alerts">
+                  <ShieldAlert className="size-3.5 text-warning" aria-hidden="true" /> {a.counts.alerts}
                 </span>
               </div>
               <span
                 className={cn(
-                  "flex shrink-0 items-center gap-1 rounded-full border border-border bg-surface px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide",
+                  "flex shrink-0 items-center gap-1 rounded-full border border-border/80 bg-surface px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wide",
                   status.className,
                 )}
               >
                 <StatusIcon className="size-3" aria-hidden="true" /> {status.label}
               </span>
             </Link>
-          </li>
+          </motion.li>
         );
       })}
     </ul>
