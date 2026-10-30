@@ -121,8 +121,8 @@ function GraphLoader({ data, filterTypes, minReports, atDate, onClickNode, onHov
   // events
   useEffect(() => {
     registerEvents({
-      clickNode: ({ node }) => onClickNode(node),
-      enterNode: ({ node }) => {
+      clickNode: ({ node }: { node: string }) => onClickNode(node),
+      enterNode: ({ node }: { node: string }) => {
         onHoverNode(node);
       },
       leaveNode: () => {

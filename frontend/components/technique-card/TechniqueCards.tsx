@@ -41,7 +41,7 @@ export function TechniqueCards({ techniques: propTechniques, onSelectTab }: Tech
 
   const { tactics, byShortname, getColor, getName } = useTactics();
 
-  const techniques = propTechniques || storeTechniques || [];
+  const techniques = useMemo(() => propTechniques ?? storeTechniques ?? [], [propTechniques, storeTechniques]);
 
   const [expandedQuotes, setExpandedQuotes] = useState<Record<string, boolean>>({});
   const [feedbackGiven, setFeedbackGiven] = useState<Record<string, "accept" | "reject">>({});

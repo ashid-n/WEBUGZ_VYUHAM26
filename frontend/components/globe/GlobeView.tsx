@@ -56,13 +56,13 @@ export function GlobeView({ analysisId }: { analysisId: string }) {
   const scatterLayer = new ScatterplotLayer<GeoPoint>({
     id: "ioc-scatter",
     data: points,
-    getPosition: (p) => [p.lon, p.lat],
+    getPosition: (p: GeoPoint) => [p.lon, p.lat],
     getRadius: 30000,
-    getFillColor: (p) => roleColor(p.role),
+    getFillColor: (p: GeoPoint) => roleColor(p.role),
     pickable: true,
     radiusMinPixels: 6,
     radiusMaxPixels: 20,
-    onHover: (info) => {
+    onHover: (info: { object?: unknown; x: number; y: number }) => {
       if (info.object) {
         setTooltip({ x: info.x, y: info.y, point: info.object as GeoPoint });
       } else {
@@ -75,9 +75,9 @@ export function GlobeView({ analysisId }: { analysisId: string }) {
     ? new ArcLayer<GeoPoint>({
         id: "ioc-arcs",
         data: points.filter((p) => p.role !== "victim" && (p.role === "c2" || p.role === "exfil")),
-        getSourcePosition: (p) => [p.lon, p.lat],
+        getSourcePosition: (p: GeoPoint) => [p.lon, p.lat],
         getTargetPosition: () => [victimPoint.lon, victimPoint.lat],
-        getSourceColor: (p) => roleColor(p.role),
+        getSourceColor: (p: GeoPoint) => roleColor(p.role),
         getTargetColor: [96, 165, 250, 180],
         getWidth: 2,
         pickable: false,

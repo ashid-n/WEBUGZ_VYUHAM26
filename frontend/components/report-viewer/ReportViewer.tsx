@@ -37,9 +37,9 @@ export function ReportViewer() {
   const textRef = useRef<HTMLDivElement>(null);
 
   const reportText = analysis.text || "";
-  const techniques = analysis.techniques || [];
-  const iocs = analysis.iocs || [];
-  const injectionFlags = analysis.injection_flags || [];
+  const techniques = useMemo(() => analysis.techniques ?? [], [analysis.techniques]);
+  const iocs = useMemo(() => analysis.iocs ?? [], [analysis.iocs]);
+  const injectionFlags = useMemo(() => analysis.injection_flags ?? [], [analysis.injection_flags]);
 
   const selectedTechnique = useMemo(() => {
     return techniques.find((t) => t.technique_id === selectedTechniqueId) || techniques[0];

@@ -67,7 +67,7 @@ interface IocTableProps {
 export function IocTable({ iocs: propIocs }: IocTableProps) {
   const storeIocs = useAnalysisStore((state) => state.analysis.iocs);
   const selectTechnique = useAnalysisStore((state) => state.select);
-  const iocs = propIocs || storeIocs || [];
+  const iocs = useMemo(() => propIocs ?? storeIocs ?? [], [propIocs, storeIocs]);
 
   const [search, setSearch] = useState("");
   const [selectedRole, setSelectedRole] = useState<string>("all");

@@ -18,8 +18,10 @@ interface AttackHeatmapProps {
 
 export function AttackHeatmap({ compact = false }: AttackHeatmapProps) {
   const { tactics, getColor } = useTactics();
-  const techniques = useAnalysisStore((state) => state.analysis.techniques) || [];
-  const predictions = useAnalysisStore((state) => state.analysis.predictions) || [];
+  const rawTechniques = useAnalysisStore((state) => state.analysis.techniques);
+  const rawPredictions = useAnalysisStore((state) => state.analysis.predictions);
+  const techniques = useMemo(() => rawTechniques ?? [], [rawTechniques]);
+  const predictions = useMemo(() => rawPredictions ?? [], [rawPredictions]);
   const selectedTechniqueId = useAnalysisStore((state) => state.selectedTechniqueId);
   const selectTechnique = useAnalysisStore((state) => state.select);
 
@@ -45,7 +47,7 @@ export function AttackHeatmap({ compact = false }: AttackHeatmapProps) {
       }
     }
 
-    if (showPredicted) {
+    if (showPredicted && predictions) {
       for (const pred of predictions) {
         for (const tac of pred.tactics) {
           if (map[tac]) {
