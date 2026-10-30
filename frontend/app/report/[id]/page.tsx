@@ -23,20 +23,31 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AttackFlowView } from "@/components/attack-flow";
+import dynamic from "next/dynamic";
 import { AttackHeatmap } from "@/components/attack-heatmap";
 import { DetectionPanel } from "@/components/detection-panel";
 import { ExportDropdown } from "@/components/exports";
-import { GlobeView } from "@/components/globe";
 import { IocTable } from "@/components/ioc-table";
 import { ContradictionCard } from "@/components/memory-graph";
-import { PipelineCanvas } from "@/components/pipeline-canvas";
 import { ReportViewer } from "@/components/report-viewer";
 import { TechniqueCards } from "@/components/technique-card";
 import { getAnalysis } from "@/lib/api";
 import { useAnalysisStream } from "@/lib/sse";
 import { useAnalysisStore } from "@/lib/store";
 import type { MemoryAlert } from "@/lib/types";
+
+const GlobeView = dynamic(
+  () => import("@/components/globe").then((m) => m.GlobeView),
+  { ssr: false }
+);
+const AttackFlowView = dynamic(
+  () => import("@/components/attack-flow").then((m) => m.AttackFlowView),
+  { ssr: false }
+);
+const PipelineCanvas = dynamic(
+  () => import("@/components/pipeline-canvas").then((m) => m.PipelineCanvas),
+  { ssr: false }
+);
 
 export default function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
